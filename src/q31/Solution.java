@@ -1,0 +1,36 @@
+package q31;
+
+/*
+    输入两个整数序列，第一个序列表示栈的压入顺序，请判断第二个序列是否可能为该栈的弹出顺序。
+    假设压入栈的所有数字均不相等。
+    例如序列1,2,3,4,5是某栈的压入顺序，序列4,5,3,2,1是该压栈序列对应的一个弹出序列，
+    但4,3,5,1,2就不可能是该压栈序列的弹出序列。（注意：这两个序列的长度是相等的）
+
+*/
+
+import java.util.Stack;
+
+public class Solution {
+    public boolean IsPopOrder(int[] pushA, int[] popA) {
+        Stack<Integer> stack = new Stack<>();
+        int len = pushA.length;
+        int i = 0, j = 0;
+        while (i < len) {
+            if (stack.isEmpty() || stack.peek() != popA[i]) { // 当前数不在栈内
+                while (j < len && pushA[j] != popA[i]) {
+                    stack.push(pushA[j]);
+                    j++;
+                }
+                if (j == len) { // 遍历完，还没找到
+                    return false;
+                } else { // 找到当前节点了
+                    j++;
+                }
+            } else { // 当前数在栈内
+                stack.pop();
+            }
+            i++;
+        }
+        return true;
+    }
+}
